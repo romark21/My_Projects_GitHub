@@ -85,7 +85,8 @@ def get_authoriz_and_authentic():
                       "Ошибка при отправке запроса для получения данных о следующей недели!")
                 print('*' * 60)
         else:
-            print('Вы ввели неправильную команду!')
+            print('You have entered the wrong command!\n'
+                  'Вы ввели неправильную команду!')
 
         return soup
 
