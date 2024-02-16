@@ -23,10 +23,12 @@ def get_authoriz_and_authentic():
         response = session.post(url, data=user_data, headers=header)
         if response.status_code == 200:
             cookies = response.cookies.get_dict()
+            print('*' * 60)
             print('Authorization passed - Successful!\n'
                   'Авторизация прошла - Успешно!')
             print('*' * 60)
         else:
+            print('*' * 60)
             print('Error when sending a request for authorization!\n'
                   'Ошибка при отправке запроса для авторизации!')
             print('*' * 60)
@@ -41,6 +43,7 @@ def get_authoriz_and_authentic():
                   'Выбор пользовательского профиля - Успешно!')
             print('*' * 60)
         else:
+            print('*' * 60)
             print('Error when sending a request in the user profile selection window!\n'
                   'Ошибка при отправке запроса в окне выбора профиля пользователя!')
             print('*' * 60)
@@ -53,7 +56,7 @@ def get_authoriz_and_authentic():
         response = session.get(diary, cookies=cookies)
         if response.status_code == 200:
             print('Going to the "Diary" page - Successful!\n'
-                  'Переход на страницу "Дневник" - Успешно!\n')
+                  'Переход на страницу "Дневник" - Успешно!')
             print('*' * 60)
         else:
             print('Error when sending request, tab - "Diary"!\n'
@@ -61,9 +64,11 @@ def get_authoriz_and_authentic():
             print('-' * 60)
 
         # Prompt the user for information about the week selection.
-        user_week_data = input(f'Укажите за какую неделю вы хотите получить данные!\n1 - За текущую неделю\n'
-                               f'2 - За следующию неделю\n'
-                               f'Введите число: ')
+        user_week_data = input(f'Specify which week you want the data for!\n'
+                               f'Укажите за какую неделю вы хотите получить данные!\n'
+                               f'1 - For this week. За текущую неделю...\n'
+                               f'2 - For next week. За следующию неделю...\n'
+                               f'Enter the command number. Введите номер команды: ')
         soup = BeautifulSoup(response.text, 'lxml')
 
         if user_week_data == '1':
