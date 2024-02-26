@@ -39,10 +39,10 @@ def get_url():
         url = f'https://www.ss.com/ru/transport/cars/{brand_auto}/page{count}.html'
         r = requests.get(url, headers=headers)
         soup = BeautifulSoup(r.text, 'lxml')
-        data = soup.find_all('div', class_='d1')
+        datas = soup.find_all('div', class_='d1')
         count += 1
-        for i in data:
-            card_url = i.find('a')
+        for data in datas:
+            card_url = data.find('a')
             if not card_url:
                 continue
             url = 'https://www.ss.lv' + card_url.get('href')

@@ -24,12 +24,12 @@ def get_authoriz_and_authentic():
         if response.status_code == 200:
             cookies = response.cookies.get_dict()
             print('*' * 60)
-            print('Authorization passed - Successful!\n'
+            print('\nAuthorization passed - Successful!\n'
                   'Авторизация прошла - Успешно!')
             print('*' * 60)
         else:
             print('*' * 60)
-            print('Error when sending a request for authorization!\n'
+            print('\nError when sending a request for authorization!\n'
                   'Ошибка при отправке запроса для авторизации!')
             print('*' * 60)
 
@@ -39,12 +39,12 @@ def get_authoriz_and_authentic():
         buttons_url = 'https://my.e-klase.lv/SessionContext/SwitchStudentWithFamilyStudentAutoAdd'
         response = session.get(buttons_url, cookies=cookies)
         if response.status_code == 200:
-            print('Selecting a user profile - Successful!\n'
+            print('\nSelecting a user profile - Successful!\n'
                   'Выбор пользовательского профиля - Успешно!')
             print('*' * 60)
         else:
             print('*' * 60)
-            print('Error when sending a request in the user profile selection window!\n'
+            print('\nError when sending a request in the user profile selection window!\n'
                   'Ошибка при отправке запроса в окне выбора профиля пользователя!')
             print('*' * 60)
 
@@ -55,16 +55,16 @@ def get_authoriz_and_authentic():
         diary = re.sub(r'>\s+<', '><', diary.replace('\n', ''))
         response = session.get(diary, cookies=cookies)
         if response.status_code == 200:
-            print('Going to the "Diary" page - Successful!\n'
+            print('\nGoing to the "Diary" page - Successful!\n'
                   'Переход на страницу "Дневник" - Успешно!')
             print('*' * 60)
         else:
-            print('Error when sending request, tab - "Diary"!\n'
+            print('\nError when sending request, tab - "Diary"!\n'
                   'Ошибка при отправке запроса, вкладка - "Дневник"!')
             print('-' * 60)
 
         # Prompt the user for information about the week selection.
-        user_week_data = input(f'Specify which week you want the data for!\n'
+        user_week_data = input(f'\nSpecify which week you want the data for!\n'
                                f'Укажите за какую неделю вы хотите получить данные!\n'
                                f'1 - For this week. За текущую неделю...\n'
                                f'2 - For next week. За следующию неделю...\n'
