@@ -12,7 +12,7 @@ def get_diary_page_data():
     url = 'https://my.e-klase.lv/?v=15'
     user_agent = fake_useragent.UserAgent().random
     header = {'user-agent': user_agent}
-    data = {
+    datas = {
         'UserName': str(username),
         'Password': str(password)
     }

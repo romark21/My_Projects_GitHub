@@ -4,8 +4,8 @@ from time import sleep
 import re
 import fake_useragent
 
-user_agent = fake_useragent.UserAgent().random
-headers = {"User-Agent": user_agent}
+# user_agent = fake_useragent.UserAgent().random
+# headers = {"User-Agent": user_agent}
 # def main():
 #     url = f'https://www.ss.com/ru/transport/cars/bmw.html'
 #     get_url(url)
@@ -29,27 +29,44 @@ print(f'{"-" * 10}\nAlfa Romeo, Audi\n{"-" * 40}\n'
       f'Volkswagen, Volvo\n{"-" * 40}\n'
       f'Vaz, Gaz, Uaz\n{"-" * 40}\n'
       f'Others\n{"-" * 10}\n')
-brand_auto = input(f"Enter vehicle name to get a list of ads: ").lower()
+brand_auto = input(f"Введите название марки автомобиля(На англиском языке),чтобы получить список обЪявлений: ").lower()
 print()
 
 
-def get_url():
-    count = 1
-    while count < 2:
-        url = f'https://www.ss.com/ru/transport/cars/{brand_auto}/page{count}.html'
-        r = requests.get(url, headers=headers)
-        soup = BeautifulSoup(r.text, 'lxml')
-        datas = soup.find_all('div', class_='d1')
-        count += 1
-        for data in datas:
-            card_url = data.find('a')
-            if not card_url:
-                continue
-            url = 'https://www.ss.lv' + card_url.get('href')
-            yield url
+def get_data(link):
+    user_agen = fake_useragent.UserAgent().random
+    head = {"User-Agent": user_agen}
+    with requests.session() as session:
+        res = session.get(link, headers=head)
+        soups = BeautifulSoup(res.text, 'lxml')
+    return soups
 
 
-for i, url in enumerate(get_url(), 1):
+def get_announcement_link(soups):
+    announcements = soups.find_all('div', class_='d1')
+    for announcement in announcements:
+        part_link = announcement.find('a')
+        if part_link is not None:
+            link = 'https://www.ss.lv' + part_link.get('href')
+            yield link
+
+
+
+# def get_url():
+#     count = 1
+#     while count < 2:
+#         url = f'https://www.ss.com/ru/transport/cars/{brand_auto}/page{count}.html'
+#         r = requests.get(url, headers=headers)
+#         soup = BeautifulSoup(r.text, 'lxml')
+#         datas = soup.find_all('div', class_='d1')
+#         count += 1
+#         for data in datas:
+#             if data.find('a') is not None:
+#                 url = 'https://www.ss.lv' + card_url.get('href')
+#             yield url
+
+
+for i, url in enumerate(get_announcement_link(), 1):
     response = requests.get(url, headers=headers)
     sleep(2)
     soup = BeautifulSoup(response.text, 'lxml')
@@ -99,9 +116,10 @@ for i, url in enumerate(get_url(), 1):
     del_str = data.text.find('Марка')
     description = re.sub(r"^\s+|\n|\r|", '', data.text[:del_str])
 
-    print(f'{i})\nModel: {model}\n{"-" * 20}\nYear: {year}\n{"-" * 20}\nMotor: {motor}\n{"-" * 20}\n'
-          f'Transmission: {transmission}\n{"-" * 20}\nCar body: {car_body}\n{"-" * 20}\nColor: {color}\n{"-" * 20}\n'
-          f'Run rate: {car_mileage} км.\n{"-" * 20}\nTech.Inspection: {technical_inspection}\n{"-" * 20}\n'
-          f'Description: {description}\n{url}\n{"-" * 60}\n')
+    print(f'{i})\nМодель: {model}\n{"-" * 20}\nГод выпуска: {year}\n{"-" * 20}\nДвигатель: {motor}\n{"-" * 20}\n'
+          f'КПП: {transmission}\n{"-" * 20}\nТип кузова: {car_body}\n{"-" * 20}\nЦвет: {color}\n{"-" * 20}\n'
+          f'Пробег: {car_mileage} км.\n{"-" * 20}\nТех.Осмотр: {technical_inspection}\n{"-" * 20}\n'
+          f'Описание: {description}\n{url}\n{"-" * 60}\n')
     print()
-
+# if __name__ == "__main__":
+#     main()
